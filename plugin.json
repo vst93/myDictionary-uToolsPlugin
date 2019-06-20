@@ -1,0 +1,16 @@
+{
+	"pluginName": "词典",
+	"description": "中英词典插件",
+	"homepage": "https://github.com/vst93/myDictionary-uToolsPlugin",
+	"author": "vst",
+	"main": "index.html",
+	"logo": "logo.jpg",
+	"version": "0.0.1",
+	"preload":"preload.js",
+	"features": [
+	    {
+	        "code": "search_word",
+	        "cmds":["词典","dictionary"]
+		}
+	]
+}
