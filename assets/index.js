@@ -37,10 +37,10 @@ function search_word(word){
         }
 
         //基础解释
-        var reg_ecContentWrp = /ec_contentWrp"[\W\w]*<ul>([\W\w]*?)<\/ul/im;
+        var reg_ecContentWrp = /_contentWrp"[\W\w]*<ul>([\W\w]*?)<\/ul/im;
         var str_ecCcontentWrp = reg_ecContentWrp.exec(data)
         if(str_ecCcontentWrp != null){
-            append_html  += '<h2>释义</h2><ul>'+str_ecCcontentWrp[1]+'</ul>';       
+            append_html  += '<h2>释义</h2><ul>'+filterATag(str_ecCcontentWrp[1])+'</ul>';       
         }
 
         //翻译
@@ -58,3 +58,8 @@ function search_word(word){
     });
 }
 
+function filterATag(msg) {
+    var msg = msg.replace(/<a[\W\w]*?>/gim, '');
+    msg = msg.replace('</a>', '')
+    return msg;
+}
