@@ -1,0 +1,52 @@
+body{
+    margin: 0;
+    padding: 0;
+    background: #f5f5f5;
+}
+#voice{
+    margin: 0;
+    padding: 0;
+    height: 0;
+    width: 0;
+}
+
+.play-phonetic-btn{
+    height: 15px;
+    width: 24px;
+    background-image: url(play.png);
+    background-repeat: no-repeat;
+    border: none;
+    background-size: 24px;
+    background-position: center;
+    cursor: pointer;
+}
+.content h1{
+    background: #fff;
+    padding: 20px;
+    margin: 0;
+}
+.content h2{
+    background: #e0e0e0;
+    padding: 8px 20px;
+    font-size: 1.2em;
+    margin: 0;
+    color: #a0a0a0;
+    border-bottom: 1px #fff dashed;
+}
+.content ul{
+    list-style: none;
+    background: #f5f5f5;
+    margin: 0;
+    padding: 12px 20px;
+    line-height: 1.6em;
+}
+
+.content ul div{
+    display:inline;
+}
+
+.phonetic{
+    background: #fff;
+    padding: 8px 20px;
+    margin: 0;
+}

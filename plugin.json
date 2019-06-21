@@ -4,13 +4,20 @@
 	"homepage": "https://github.com/vst93/myDictionary-uToolsPlugin",
 	"author": "vst",
 	"main": "index.html",
-	"logo": "logo.jpg",
-	"version": "0.0.1",
+	"logo": "logo.png",
+	"version": "0.1.0",
 	"preload":"preload.js",
 	"features": [
 	    {
-	        "code": "search_word",
-	        "cmds":["词典","dictionary"]
+			"code": "search_word",
+			"explain": "词汇查询",
+	        "cmds":[
+				"词典","dictionary","myDictionary",
+				{
+					"type": "over",
+					"label": "词典"
+				}
+			]
 		}
 	]
 }
