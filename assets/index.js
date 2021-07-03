@@ -27,13 +27,15 @@ function search_word(word){
     if(word==''){
         return;
     }
-    utools.setExpendHeight(544);
-    $(".content").html('');
     var append_html = ""
+    $(".content").html('');
+    // utools.setExpendHeight(544);
     var url = "https://m.youdao.com/dict?le=eng&q="+word;
     $.get(url, function(data){
-        t=data
+        var append_html = ""
         append_html = '<h1>'+word+'</h1>';
+        $(".content").html('');
+        t = data
 
         //读音 英/美
         var reg_audio = /英[\W\w]*?phonetic">([\W\w]*?)<\/span[\W\w]*?data-rel="([\W\w]*?)"[\W\w]*?美[\W\w]*?phonetic">([\W\w]*?)<\/span[\W\w]*?data-rel="([\W\w]*?)"/im;
@@ -51,7 +53,6 @@ function search_word(word){
             var reg_audio = /phonetic">([\W\w]*?)<\/span[\W\w]*?data-rel="([\W\w]*?)"/im;
             var str_audio = reg_audio.exec(data)
             if(str_audio != null){
-                console.log(str_audio)
                 append_html += '<h3 class="phonetic">'+str_audio[1]+'<button class="play-phonetic-btn" type="button" onclick="playVoice(\''+str_audio[2]+'\');"></button></h3>';
             }
 
@@ -75,7 +76,16 @@ function search_word(word){
         //      append_html  += "<li><img onmouseenter=\"bigImg(this)\" src='"+item.picUrl+"' onerror=\"this.onerror='';src='assets/loading.gif'\" /></li>";
         //   });
         $(".content").append(append_html);
-        setTimeout(function(){ loading = false}, 1000);
+        setTimeout(function(){ 
+            loading = false
+            theH = $('.content').height()
+            if (theH > 544){
+                theH = 544
+            }else if(theH < 270){
+                theH = 270
+            }
+            utools.setExpendHeight(theH);
+        }, 1000);
     });
 }
 
