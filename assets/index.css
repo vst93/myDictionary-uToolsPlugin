@@ -181,3 +181,14 @@ body{
 .popping-collect-list-shake{ 
    mix-blend-mode: difference;
 }
+
+.speech-size{
+    display: none;
+}
+.col3{
+    display: none;
+}
+
+.secondary{
+    float: left;
+}
