@@ -29,21 +29,21 @@ $(function () {
     $(".collect-list").on('click', 'span', function () {
         search_word($(this).text())
     })
-    $(".collect-list").on('mouseup','.collect-item-delete', function (e) {
-        switch (e.which){
+    $(".collect-list").on('mouseup', '.collect-item-delete', function (e) {
+        switch (e.which) {
             case 1:
                 theId = $(this).prev("span").attr('id')
                 deleteCollectItem(theId)
                 break
             case 3:
-                if (confirm("是否清空全部收藏记录?")){
+                if (confirm("是否清空全部收藏记录?")) {
                     clearCollectList()
                 }
-            }
+        }
     })
     $("body").on('click', '.add-collect', function () {
         addCollect($('.content h1').text())
-        shake($('.popping-collect-list'),'popping-collect-list-shake',3)
+        shake($('.popping-collect-list'), 'popping-collect-list-shake', 3)
     })
     $("body").on('mouseover', '.popping-collect-list', function () {
         showCollectList()
@@ -96,20 +96,17 @@ function search_word(word) {
         var reg_fanyiContentWrp = /fanyi_contentWrp"[\W\w]*?翻译结果[\W\w]*?trans-container[\W\w]*?<p>[\W\w]*?<\/p>([\W\w]*?)<\/p>/im;
         var str_fanyiContentWrp = reg_fanyiContentWrp.exec(data)
         if (str_fanyiContentWrp != null) {
-            append_html += '<h2>翻译</h2><ul><li>' + str_fanyiContentWrp[1] + '</li></ul>';
+            append_html += '<h2>有道翻译</h2><ul><li>' + str_fanyiContentWrp[1] + '</li></ul>';
         }
 
+
+
         $(".content").append(append_html);
+        googleTranslate(word)
         setTimeout(function () {
             loading = false
-            // theH = $('.content').height()
-            // if (theH > 544){
-            //     theH = 544
-            // }else if(theH < 270){
-            //     theH = 270
-            // }
-            // utools.setExpendHeight(theH);
         }, 1000);
+
     });
 }
 
@@ -144,22 +141,22 @@ function getCollect() {
 
 function addCollect(text) {
     list = getCollect()
-    if (list.length>=1000){
+    if (list.length >= 1000) {
         utools.showNotification('当前已收藏1000个单词，为了保证插件速度，请删除部分后再次添加')
         return
     }
 
     isOld = 0
     for (let index = 0; index < list.length; index++) {
-        if (list[index]['text'] == text){
+        if (list[index]['text'] == text) {
             tmpItem = list[index]
-            list.splice(index,1)
+            list.splice(index, 1)
             list.push(tmpItem)
             isOld = 1
         }
     }
 
-    if (isOld==0){
+    if (isOld == 0) {
         list.push({
             'text': text,
             'time': Date.now(),
@@ -180,10 +177,10 @@ function showCollectList() {
     collectListHtml = ''
     listData = getCollect()
     listData.forEach(item => {
-        collectListHtml = "<span id='" + item.id + "'>" 
-        + stringToEntity(item.text) 
+        collectListHtml = "<span id='" + item.id + "'>"
+            + stringToEntity(item.text)
             + "</span><p class='collect-item-delete'></p>"
-        + collectListHtml
+            + collectListHtml
     });
     // console.log(collectListHtml)
     $('.collect-list').html(collectListHtml)
@@ -194,7 +191,7 @@ function deleteCollectItem(itemId) {
     listData = getCollect()
     newList = []
     listData.forEach(item => {
-        if (item.id!=itemId){
+        if (item.id != itemId) {
             newList.push(item)
         }
     });
@@ -207,7 +204,7 @@ function deleteCollectItem(itemId) {
     showCollectList()
 }
 
-function clearCollectList(){
+function clearCollectList() {
     utools.db.remove(collectDataDbId)
     showCollectList()
 }
@@ -244,3 +241,46 @@ function shake(ele, cls, times) {
         }
     }, 200);
 };
+
+
+//谷歌翻译
+function googleTranslate(str) {
+    var tl = 'zh'
+    if (/.*[\u4e00-\u9fa5]+.*$/.test(str)) {
+        //包含中文，结果要为英文
+        tl = 'en'
+
+    }
+    var apiUrl = 'https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=' + tl + '&dt=t&ie=UTF-8&dj=1&q=' + urlencode(str)
+    var ret = ''
+    $.ajax({
+        type: "GET",
+        url: apiUrl,
+        data: {},
+        async: true,
+        cache: true,
+        dataType: "json",
+        success: function (backdata, status, xmlHttpRequest) {
+            if (status == 'success') {
+                if (backdata.sentences.length > 0 && backdata.sentences[0].trans.length > 0) {
+                    var append_html = '<h2>谷歌翻译</h2><ul>';
+                    backdata.sentences.forEach(item =>{
+                        append_html += item.trans
+                    })
+                    append_html += '</ul>';
+                    $(".content").append(append_html);
+                }
+            }
+        },
+        error: function (msg) {
+            // console.log("错误内容" + msg)
+        }
+    });
+}
+
+
+function urlencode(str) {
+    str = (str + '').toString();
+    return encodeURIComponent(str).replace(/!/g, '%21').replace(/'/g, '%27').replace(/\(/g, '%28').
+        replace(/\)/g, '%29').replace(/\*/g, '%2A').replace(/%20/g, '+');
+}
