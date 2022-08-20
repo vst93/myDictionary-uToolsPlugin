@@ -21,7 +21,7 @@ body{
     background-position: center;
     cursor: pointer;
     background-color: #fff;
-    opacity: 0.8;
+    opacity: 0.5;
 }
 
 .play-phonetic-btn:hover{
