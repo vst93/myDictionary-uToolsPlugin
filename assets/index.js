@@ -22,6 +22,13 @@ $(document).keydown(e => {
         case 13:
             search_word(text)
             break;
+        case 49:
+            buttonClickByShortcut('play-phonetic-btn-id-1');
+            break;
+        case 50:
+            buttonClickByShortcut('play-phonetic-btn-id-2');
+            break;
+
     }
 });
 
@@ -72,15 +79,15 @@ function search_word(word) {
         if (str_audio != null) {
             append_html += '<h3 class="phonetic">英' + str_audio[1]
                 + '<audio controls="controls" id="audio_player_1" style="display:none;" src="' + str_audio[2] + '"></audio>'
-                + '<button class="play-phonetic-btn" type="button" onclick="playVoice(\'audio_player_1\')"></button>&nbsp;&nbsp;&nbsp;美' + str_audio[3]
+                + '<button title="[alt]+[1]" class="play-phonetic-btn" id="play-phonetic-btn-id-1" type="button" onclick="playVoice(\'audio_player_1\')"></button>&nbsp;&nbsp;&nbsp;美' + str_audio[3]
                 + '<audio controls="controls" id="audio_player_2" style="display:none;" src="' + str_audio[4] + '"></audio>'
-                + '<button class="play-phonetic-btn" type="button" onclick="playVoice(\'audio_player_2\')"></button></h3>';
+                + '<button title="[alt]+[2]" class="play-phonetic-btn" id="play-phonetic-btn-id-2" type="button" onclick="playVoice(\'audio_player_2\')"></button></h3>';
         } else {
             //读音 单个读音
             var reg_audio = /phonetic">([\W\w]*?)<\/span[\W\w]*?data-rel="([\W\w]*?)"/im;
             var str_audio = reg_audio.exec(data)
             if (str_audio != null) {
-                append_html += '<h3 class="phonetic">' + str_audio[1] + '<button class="play-phonetic-btn" type="button" onclick="playVoice(\'' + str_audio[2] + '\');"></button></h3>';
+                append_html += '<h3 class="phonetic">' + str_audio[1] + '<button title="[alt]+[1]" class="play-phonetic-btn" id="play-phonetic-btn-id-1" type="button" onclick="playVoice2(\'' + str_audio[2] + '\');"></button></h3>';
             }
 
         }
@@ -264,7 +271,7 @@ function googleTranslate(str) {
             if (status == 'success') {
                 if (backdata.sentences.length > 0 && backdata.sentences[0].trans.length > 0) {
                     var append_html = '<h2>谷歌翻译</h2><ul>';
-                    backdata.sentences.forEach(item =>{
+                    backdata.sentences.forEach(item => {
                         append_html += item.trans
                     })
                     append_html += '</ul>';
@@ -283,4 +290,12 @@ function urlencode(str) {
     str = (str + '').toString();
     return encodeURIComponent(str).replace(/!/g, '%21').replace(/'/g, '%27').replace(/\(/g, '%28').
         replace(/\)/g, '%29').replace(/\*/g, '%2A').replace(/%20/g, '+');
+}
+
+function buttonClickByShortcut(btnId) {
+    $('#' + btnId).click();
+    $('#' + btnId).css('opacity', 1);
+    setInterval(function () {
+        $('#' + btnId).css('opacity', '');
+    }, 1500);
 }
