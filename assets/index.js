@@ -79,9 +79,9 @@ function search_word(word) {
         if (str_audio != null) {
             append_html += '<h3 class="phonetic">英' + str_audio[1]
                 + '<audio controls="controls" id="audio_player_1" style="display:none;" src="' + str_audio[2] + '"></audio>'
-                + '<button title="[alt]+[1]" class="play-phonetic-btn" id="play-phonetic-btn-id-1" type="button" onclick="playVoice(\'audio_player_1\')"></button>&nbsp;&nbsp;&nbsp;美' + str_audio[3]
+                + '<button title="[alt/cmd]+[1]" class="play-phonetic-btn" id="play-phonetic-btn-id-1" type="button" onclick="playVoice(\'audio_player_1\')"></button>&nbsp;&nbsp;&nbsp;美' + str_audio[3]
                 + '<audio controls="controls" id="audio_player_2" style="display:none;" src="' + str_audio[4] + '"></audio>'
-                + '<button title="[alt]+[2]" class="play-phonetic-btn" id="play-phonetic-btn-id-2" type="button" onclick="playVoice(\'audio_player_2\')"></button></h3>';
+                + '<button title="[alt/cmd]+[2]" class="play-phonetic-btn" id="play-phonetic-btn-id-2" type="button" onclick="playVoice(\'audio_player_2\')"></button></h3>';
         } else {
             //读音 单个读音
             var reg_audio = /phonetic">([\W\w]*?)<\/span[\W\w]*?data-rel="([\W\w]*?)"/im;
