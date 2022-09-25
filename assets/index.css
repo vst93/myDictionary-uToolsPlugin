@@ -107,8 +107,45 @@ body{
 .collect-list:hover>.popping-collect-list{
    display: none;
 }
+.collect-list-li{
+    height: 96vh;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+.collect-list-tools{
+    position: fixed;
+    bottom: 0;
+    height: 4vh;
+    width: 100%;
+    line-height: 6vh;
+    background: #a3a3a3;
+}
+.collect-list-tools-span{
+    line-height: 4vh;
+    background-size: 3vh;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    height: 4vh;
+    width: 10vw;
+    display: table-cell;
+    cursor: pointer;
+    border-right: 1px dotted #000;
+}
 
+.collect-list-tools-span:hover {
+    background-color: #ffa46f;
+}
 
+.tools-export{
+    background-image: url(./export.png);
+}
+
+.tools-clear-all {
+    background-image: url(./clear-all.png);
+}
 
 .top-line{
     height: 0;
