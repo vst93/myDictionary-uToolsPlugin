@@ -1,18 +1,19 @@
 {
 	"pluginName": "词典",
-	"description": "中英词典插件",
+	"description": "中英词典插件、翻译",
 	"homepage": "https://github.com/vst93/myDictionary-uToolsPlugin",
 	"author": "vst",
 	"main": "index.html",
 	"logo": "logo.png",
-	"version": "0.2.3",
+	"version": "0.2.4",
 	"preload":"preload.js",
 	"features": [
 	    {
 			"code": "search_word",
-			"explain": "词汇查询",
+			"explain": "词汇查询与翻译",
 	        "cmds":[
 				"词典","dictionary","myDictionary",
+				"翻译","translate",
 				{
 					"type": "over",
 					"label": "词典"

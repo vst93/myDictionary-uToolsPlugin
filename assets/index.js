@@ -42,10 +42,10 @@ $(function () {
                 theId = $(this).prev("span").attr('id')
                 deleteCollectItem(theId)
                 break
-            case 3:
-                if (confirm("是否清空全部收藏记录?")) {
-                    clearCollectList()
-                }
+            // case 3:
+            //     if (confirm("是否清空全部收藏记录?")) {
+            //         clearCollectList()
+            //     }
         }
     })
     $("body").on('click', '.add-collect', function () {
@@ -55,6 +55,16 @@ $(function () {
     $("body").on('mouseover', '.popping-collect-list', function () {
         showCollectList()
     })
+    $(".tools-clear-all").on('click',function(){
+        if (confirm("是否清空全部收藏记录?")) {
+            clearCollectList()
+        }
+    })
+
+    $(".tools-export").on('click', function () {
+        exportCollectList()
+    })
+
 })
 
 
@@ -180,6 +190,7 @@ function addCollect(text) {
     showCollectList()
 }
 
+//展示收藏
 function showCollectList() {
     collectListHtml = ''
     listData = getCollect()
@@ -189,9 +200,24 @@ function showCollectList() {
             + "</span><p class='collect-item-delete'></p>"
             + collectListHtml
     });
-    // console.log(collectListHtml)
-    $('.collect-list').html(collectListHtml)
+    $('.collect-list-li').html(collectListHtml)
 }
+
+//导出收藏
+function exportCollectList() {
+    csvString = ''
+    listData = getCollect()
+    listData.forEach(item => {
+        if(csvString==""){
+            csvString += item.text
+
+        }else{
+            csvString += item.text + "\n"
+        }
+    });
+    window.saveCSV(csvString)
+}
+
 
 
 function deleteCollectItem(itemId) {
