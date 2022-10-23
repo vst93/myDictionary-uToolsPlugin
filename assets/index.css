@@ -231,3 +231,12 @@ body{
 .secondary{
     float: left;
 }
+
+.cover {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    outline: 5000px solid rgba(0, 0, 0, 0.15);
+    z-index: 99999;
+    display: none;
+}
