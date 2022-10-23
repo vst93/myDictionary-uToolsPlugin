@@ -1,11 +1,11 @@
 {
 	"pluginName": "词典",
-	"description": "中英词典插件、翻译",
+	"description": "中英词典、翻译",
 	"homepage": "https://github.com/vst93/myDictionary-uToolsPlugin",
 	"author": "vst",
 	"main": "index.html",
 	"logo": "logo.png",
-	"version": "0.2.4",
+	"version": "0.2.5",
 	"preload":"preload.js",
 	"features": [
 	    {
