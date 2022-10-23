@@ -4,6 +4,11 @@ var collectDataDbId = 'collectData'
 var collectDataDbRev = ''
 
 utools.onPluginEnter(({ code, type, payload }) => {
+    if (utools.isDarkColors()) {
+        $('.cover').show()
+    } else {
+        $('.cover').hide()
+    }
     utools.setExpendHeight(0);
     if (code == 'search_word') {
         utools.setSubInput(({ text }) => {
