@@ -5,7 +5,7 @@
 	"author": "vst",
 	"main": "index.html",
 	"logo": "logo.png",
-	"version": "0.2.5",
+	"version": "0.2.6",
 	"preload":"preload.js",
 	"features": [
 	    {

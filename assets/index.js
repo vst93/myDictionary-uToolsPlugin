@@ -2,6 +2,7 @@ var text = ''
 var t
 var collectDataDbId = 'collectData'
 var collectDataDbRev = ''
+var cnkiToken = ''
 
 utools.onPluginEnter(({ code, type, payload }) => {
     if (utools.isDarkColors()) {
@@ -38,6 +39,7 @@ $(document).keydown(e => {
 });
 
 $(function () {
+    // console.log(window.sss("动态"))// kufhG_UJw_k3Sfr3j0BLAA==
     $(".collect-list").on('click', 'span', function () {
         search_word($(this).text())
     })
@@ -60,7 +62,7 @@ $(function () {
     $("body").on('mouseover', '.popping-collect-list', function () {
         showCollectList()
     })
-    $(".tools-clear-all").on('click',function(){
+    $(".tools-clear-all").on('click', function () {
         if (confirm("是否清空全部收藏记录?")) {
             clearCollectList()
         }
@@ -69,7 +71,7 @@ $(function () {
     $(".tools-export").on('click', function () {
         exportCollectList()
     })
-
+    cnkiGetToken()
 })
 
 
@@ -125,6 +127,7 @@ function search_word(word) {
 
         $(".content").append(append_html);
         googleTranslate(word)
+        cnkiTranslate(word)
         setTimeout(function () {
             loading = false
         }, 1000);
@@ -213,10 +216,10 @@ function exportCollectList() {
     csvString = ''
     listData = getCollect()
     listData.forEach(item => {
-        if(csvString==""){
+        if (csvString == "") {
             csvString += item.text
 
-        }else{
+        } else {
             csvString += item.text + "\n"
         }
     });
@@ -329,4 +332,59 @@ function buttonClickByShortcut(btnId) {
     setInterval(function () {
         $('#' + btnId).css('opacity', '');
     }, 1500);
+}
+
+
+//cnki翻译
+function cnkiTranslate(str) {
+    cnkiGetToken()
+    str = window.cnkiEncrypt(str)
+    var apiUrl = 'https://dict.cnki.net/fyzs-front-api/translate/literaltranslation'
+    var postJson = {
+        words: str,
+        translateType: null
+    }
+
+    $.ajax({
+        type: "POST",
+        url: apiUrl,
+        data: JSON.stringify(postJson),
+        async: true,
+        cache: true,
+        contentType: "application/json",
+        dataType: "json",
+        headers: {
+            "Token": cnkiToken
+        },
+        success: function (backdata, status, xmlHttpRequest) {
+            if (status == 'success') {
+                if (backdata.code == 200) {
+                    var append_html = '<h2>CNKI翻译</h2><ul>';
+                    append_html += backdata.data.mResult;
+                    append_html += '</ul>';
+                    $(".content").append(append_html);
+                }
+            }
+        },
+    });
+}
+
+function cnkiGetToken() {
+    if (cnkiToken == '') {
+        var apiUrl = 'https://dict.cnki.net/fyzs-front-api/getToken'
+        $.ajax({
+            type: "GET",
+            url: apiUrl,
+            async: true,
+            cache: true,
+            dataType: "json",
+            success: function (backdata, status, xmlHttpRequest) {
+                if (status == 'success') {
+                    if (backdata.code == 200) {
+                        cnkiToken = backdata.data
+                    }
+                }
+            },
+        });
+    }
 }
