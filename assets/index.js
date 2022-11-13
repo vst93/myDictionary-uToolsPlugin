@@ -39,7 +39,6 @@ $(document).keydown(e => {
 });
 
 $(function () {
-    // console.log(window.sss("动态"))// kufhG_UJw_k3Sfr3j0BLAA==
     $(".collect-list").on('click', 'span', function () {
         search_word($(this).text())
     })
