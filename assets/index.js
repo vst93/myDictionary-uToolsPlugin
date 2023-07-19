@@ -359,6 +359,8 @@ function cnkiTranslate(str) {
             if (status == 'success') {
                 if (backdata.code == 200) {
                     var append_html = '<h2>CNKI翻译</h2><ul>';
+                    var pattern = new RegExp(" \(.*智联招聘.*\)$")
+                    backdata.data.mResult = backdata.data.mResult.replace(pattern,'')
                     append_html += backdata.data.mResult;
                     append_html += '</ul>';
                     $(".content").append(append_html);
