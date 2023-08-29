@@ -3,8 +3,11 @@ var t
 var collectDataDbId = 'collectData'
 var collectDataDbRev = ''
 var cnkiToken = ''
+var dataFilePath = ''
+var configFile = ''
 
 utools.onPluginEnter(({ code, type, payload }) => {
+    initConfigFile();
     if (utools.isDarkColors()) {
         $('.cover').show()
     } else {
@@ -19,9 +22,37 @@ utools.onPluginEnter(({ code, type, payload }) => {
             utools.setSubInputValue(payload);
             search_word(payload);
         }
-
+    } else if(code == 'setting_file_path'){
+        window.saveFileContent(configFile, payload[0].path)
+        utools.showNotification('已配置单词本文件为：' + payload[0].path)
     }
 });
+
+
+function initConfigFile(){
+    let division = '/';
+    if (utools.isWindows()) {
+        division = '\\';
+    }
+    configFile = utools.getPath('userData') + division + 'myDictionary_DATA_FILE_PATH';
+    dataFilePath = window.getFileContent(configFile)
+    if(dataFilePath == ''){
+        return
+    }
+    var str = window.getFileContent(dataFilePath)
+    if (str == '') {
+        // utools.showNotification('收藏数据记录文件异常，进入【默认存储】模式')
+        // dataFilePath = ''
+        str = '[]';
+        window.saveFileContent(dataFilePath, str)
+    }
+    var strJson = JSON.parse(str);
+    console.log(strJson)
+    if(strJson == undefined){
+        utools.showNotification('收藏数据记录文件格式异常，进入【默认存储】模式')
+        // dataFilePath = ''
+    }
+}
 
 $(document).keydown(e => {
     switch (e.keyCode) {
@@ -148,7 +179,12 @@ function playVoice(id_name) {
     document.getElementById(id_name).play();
 }
 
+
+
 function getCollect() {
+    if (dataFilePath != ''){
+        return getCollectByFile();
+    }
     dbData = utools.db.get(collectDataDbId)
     if (dbData == null) {
         r = utools.db.put({
@@ -164,6 +200,9 @@ function getCollect() {
 }
 
 function addCollect(text) {
+    if (dataFilePath != '') {
+        return addCollectByFile(text);
+    }
     list = getCollect()
     if (list.length >= 1000) {
         utools.showNotification('当前已收藏1000个单词，为了保证插件速度，请删除部分后再次添加')
@@ -225,9 +264,10 @@ function exportCollectList() {
     window.saveCSV(csvString)
 }
 
-
-
 function deleteCollectItem(itemId) {
+    if (dataFilePath != '') {
+        return deleteCollectItemByFile(itemId);
+    }
     listData = getCollect()
     newList = []
     listData.forEach(item => {
@@ -245,6 +285,9 @@ function deleteCollectItem(itemId) {
 }
 
 function clearCollectList() {
+    if (dataFilePath != '') {
+        return clearCollectListByFile();
+    }
     utools.db.remove(collectDataDbId)
     showCollectList()
 }

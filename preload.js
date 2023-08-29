@@ -28,3 +28,25 @@ saveCSV = (str) => {
 
 }
 
+getFileContent = (filePath) => {
+    try {
+        if (!fs.existsSync(filePath)) {
+            // 创建文件
+            fs.writeFileSync(filePath, '', 'utf8');
+        }
+        const data = fs.readFileSync(filePath, 'utf8');
+        return data;
+    } catch (err) {
+        utools.showNotification('数据读取文件异常，进入【默认存储】模式')
+        return '';
+    }
+}
+
+saveFileContent = (filePath , str) => {
+    fs.writeFile(filePath, str, function (err) {
+        if (err) {
+            console.error(err);
+        }
+    });
+}
+
