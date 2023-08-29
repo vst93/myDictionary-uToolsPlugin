@@ -5,7 +5,7 @@
 	"author": "vst",
 	"main": "index.html",
 	"logo": "logo.png",
-	"version": "0.2.8",
+	"version": "0.2.9",
 	"preload":"preload.js",
 	"features": [
 	    {
@@ -17,6 +17,20 @@
 				{
 					"type": "over",
 					"label": "词典"
+				}
+			]
+		},
+		{
+			"code": "setting_file_path",
+			"explain": "配置本地单词本文件路径，配置后单词本数据将记录在本地json文件中，数据同步依赖用户自行同步文件",
+			"cmds": [
+				{
+					"type": "files",
+					"fileType": "file",
+					"label": "配置本地单词本文件路径",
+					"minLength": 1,
+					"maxLength": 1,
+					"match": "/.*\\.json$/"
 				}
 			]
 		}
