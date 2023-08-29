@@ -22,9 +22,33 @@ utools.onPluginEnter(({ code, type, payload }) => {
             utools.setSubInputValue(payload);
             search_word(payload);
         }
-    } else if(code == 'setting_file_path'){
+    } else if(code == 'set_file_path'){
         window.saveFileContent(configFile, payload[0].path)
-        utools.showNotification('已配置单词本文件为：' + payload[0].path)
+        let m = '已配置单词本文件为：' + payload[0].path
+        utools.showNotification(m)
+        utools.setSubInput(({ text }) => {
+        }, m)
+        utools.setSubInputValue(m)
+        // utools.outPlugin()
+    } else if (code == 'set_file_path_to_null') {
+        window.saveFileContent(configFile, "")
+        let m = '已切换单词本为【uTools数据模式】'
+        utools.showNotification(m)
+        utools.setSubInput(({ text }) => {
+        },m)
+        utools.setSubInputValue(m)
+        // utools.outPlugin()
+    } else if (code == 'get_file_model') {
+        let m = "当前单词本为【uTools数据模式】"
+        if(dataFilePath != ""){
+            m = "当前单词本为【本地文件模式】，文件地址：" + dataFilePath
+            utools.shellShowItemInFolder(dataFilePath)
+        }
+        utools.showNotification(m)
+        utools.setSubInput(({ text }) => {
+        }, m)
+        utools.setSubInputValue(m)
+        // utools.outPlugin()
     }
 });
 
@@ -254,11 +278,10 @@ function exportCollectList() {
     csvString = ''
     listData = getCollect()
     listData.forEach(item => {
-        if (csvString == "") {
-            csvString += item.text
-
+        if (csvString != "") {
+            csvString += "\n" + item.text 
         } else {
-            csvString += item.text + "\n"
+            csvString += item.text
         }
     });
     window.saveCSV(csvString)

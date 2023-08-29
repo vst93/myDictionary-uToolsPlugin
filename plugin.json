@@ -21,7 +21,7 @@
 			]
 		},
 		{
-			"code": "setting_file_path",
+			"code": "set_file_path",
 			"explain": "配置本地单词本文件路径，配置后单词本数据将记录在本地json文件中，数据同步依赖用户自行同步文件",
 			"cmds": [
 				{
@@ -32,6 +32,20 @@
 					"maxLength": 1,
 					"match": "/.*\\.json$/"
 				}
+			]
+		},
+		{
+			"code": "set_file_path_to_null",
+			"explain": "清空本地单词本，切换到【uTools数据模式】",
+			"cmds": [
+				"单词本-清空配置的路径"
+			]
+		},
+		{
+			"code": "get_file_model",
+			"explain": "查看当前单词本模式",
+			"cmds": [
+				"单词本-查看当前模式"
 			]
 		}
 	]
