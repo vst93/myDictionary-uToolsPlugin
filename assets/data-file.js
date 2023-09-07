@@ -46,8 +46,10 @@ function deleteCollectItemByFile(itemId) {
             newList.push(item)
         }
     });
-    window.saveFileContent(dataFilePath, JSON.stringify(list))
-    showCollectList()
+    
+    window.saveFileContent(dataFilePath, JSON.stringify(newList));
+    $('span#' + itemId).hide();
+    // showCollectList();
 }
 
 function clearCollectListByFile() {
