@@ -22,7 +22,7 @@ utools.onPluginEnter(({ code, type, payload }) => {
             utools.setSubInputValue(payload);
             search_word(payload);
         }
-    } else if(code == 'set_file_path'){
+    } else if (code == 'set_file_path') {
         window.saveFileContent(configFile, payload[0].path)
         let m = '已配置单词本文件为：' + payload[0].path
         utools.showNotification(m)
@@ -35,12 +35,12 @@ utools.onPluginEnter(({ code, type, payload }) => {
         let m = '已切换单词本为【uTools数据模式】'
         utools.showNotification(m)
         utools.setSubInput(({ text }) => {
-        },m)
+        }, m)
         utools.setSubInputValue(m)
         // utools.outPlugin()
     } else if (code == 'get_file_model') {
         let m = "当前单词本为【uTools数据模式】"
-        if(dataFilePath != ""){
+        if (dataFilePath != "") {
             m = "当前单词本为【本地文件模式】，文件地址：" + dataFilePath
             utools.shellShowItemInFolder(dataFilePath)
         }
@@ -53,14 +53,14 @@ utools.onPluginEnter(({ code, type, payload }) => {
 });
 
 
-function initConfigFile(){
+function initConfigFile() {
     let division = '/';
     if (utools.isWindows()) {
         division = '\\';
     }
     configFile = utools.getPath('userData') + division + 'myDictionary_DATA_FILE_PATH';
     dataFilePath = window.getFileContent(configFile)
-    if(dataFilePath == ''){
+    if (dataFilePath == '') {
         return
     }
     var str = window.getFileContent(dataFilePath)
@@ -72,7 +72,7 @@ function initConfigFile(){
     }
     var strJson = JSON.parse(str);
     console.log(strJson)
-    if(strJson == undefined){
+    if (strJson == undefined) {
         utools.showNotification('收藏数据记录文件格式异常，进入【默认存储】模式')
         // dataFilePath = ''
     }
@@ -89,7 +89,9 @@ $(document).keydown(e => {
         case 50:
             buttonClickByShortcut('play-phonetic-btn-id-2');
             break;
-
+        case 51:
+            $('.add-collect').click();
+            break;
     }
 });
 
@@ -206,7 +208,7 @@ function playVoice(id_name) {
 
 
 function getCollect() {
-    if (dataFilePath != ''){
+    if (dataFilePath != '') {
         return getCollectByFile();
     }
     dbData = utools.db.get(collectDataDbId)
@@ -279,7 +281,7 @@ function exportCollectList() {
     listData = getCollect()
     listData.forEach(item => {
         if (csvString != "") {
-            csvString += "\n" + item.text 
+            csvString += "\n" + item.text
         } else {
             csvString += item.text
         }
@@ -426,7 +428,7 @@ function cnkiTranslate(str) {
                 if (backdata.code == 200) {
                     var append_html = '<h2>CNKI翻译</h2><ul>';
                     var pattern = new RegExp(" \(.*智联招聘.*\)$")
-                    backdata.data.mResult = backdata.data.mResult.replace(pattern,'')
+                    backdata.data.mResult = backdata.data.mResult.replace(pattern, '')
                     append_html += backdata.data.mResult;
                     append_html += '</ul>';
                     $(".content").append(append_html);
